@@ -1,5 +1,7 @@
 package com.transplate.project.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,8 +9,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
 @Entity
 @Table(name = "posts")
+@Getter
+@Setter
+@AllArgsConstructor
 public class Post {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +40,12 @@ public class Post {
 	
 	@Column(name = "is_deleted")
 	private Boolean isDeleted = false;
+	
+	@Column(name = "created_time_at")
+	@CreationTimestamp
+	private Date createdTimeAt;
+	
+	@Column(name = "updated_time_at")
+	@UpdateTimestamp
+	private Date updatedTimeAt;
 }
