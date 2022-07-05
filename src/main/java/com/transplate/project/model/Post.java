@@ -23,11 +23,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Post {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "row_number")
-    private Long rowNumber;
+    @Column(name = "rownumber")
+    private Long rownumber;
+	
+	@Column(name = "uuid", nullable = false, unique = true, length = 36)
+    private String uuid;
 	
 	@Column(name = "category", nullable = false)
     private String category;
