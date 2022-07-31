@@ -27,7 +27,7 @@ import lombok.Setter;
 public class Post {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rownumber")
+    @Column(name = "row_number")
     private Long rownumber;
 	
 	@Column(name = "uuid", nullable = false, unique = true, length = 36)
@@ -39,8 +39,8 @@ public class Post {
 	@Column(name = "subject", nullable = false)
     private String subject;
 	
-	@Column(name = "contents", columnDefinition = "TEXT")
-	private String contents;
+	@Column(name = "content", columnDefinition = "TEXT")
+	private String content;
 	
 	@Column(name = "is_deleted")
 	private Boolean isDeleted = false;

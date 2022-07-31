@@ -7,18 +7,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.transplate.project.dto.PostDto;
 import com.transplate.project.model.Post;
-import com.transplate.project.service.PostService;
+import com.transplate.project.service.post.PostService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/post/v1")
+@RequestMapping("/post")
 @RequiredArgsConstructor
 public class PostController {
 	
@@ -26,28 +27,28 @@ public class PostController {
 	
 	@GetMapping("/posts")
 	public List<Post> getPosts() {
-		return postService.getPosts("");
+		return postService.getPosts();
 	}
 	
 	@GetMapping("/posts/{uuid}")
 	public Post getPostByUuid(@PathVariable String uuid) {
-		return postService.getPostByUuid("", uuid);
+		return postService.getPostByUuid(uuid);
 	}
 	
 	@PostMapping("/posts")
-	public String writePost(@RequestBody PostDto dto) {
+	public String writePost(@RequestHeader String Authorization, @RequestBody PostDto dto) {
 		postService.writePost("", dto);
 		return "success";
 	}
 	
 	@PutMapping("/posts")
-	public String updatePost(@RequestBody PostDto dto) {
+	public String updatePost(@RequestHeader String Authorization, @RequestBody PostDto dto) {
 		postService.updatePost("", dto);
 		return "success";
 	}
 	
 	@DeleteMapping("/posts/{uuid}")
-	public String deletePost(@PathVariable String uuid) {
+	public String deletePost(@RequestHeader String Authorization, @PathVariable String uuid) {
 		postService.deletePost("", uuid);
 		return "success";
 	}
