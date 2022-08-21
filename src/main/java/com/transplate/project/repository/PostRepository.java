@@ -13,8 +13,12 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	
 	List<Post> findByIsDeletedFalse();
 	
+	List<Post> findByCategoryAndIsDeletedFalse(String category);
+	
 	Optional<Post> findByRownumberAndIsDeletedFalse(long rownumber);
 	
 	Optional<Post> findByUuidAndIsDeletedFalse(String uuid);
+	
+	Optional<Post> findTop1ByCategoryAndIsDeletedFalse(String category);
 	
 }

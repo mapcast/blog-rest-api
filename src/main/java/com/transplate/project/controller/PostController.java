@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.transplate.project.dto.PostDto;
@@ -24,10 +25,16 @@ import lombok.RequiredArgsConstructor;
 public class PostController {
 	
 	private final PostService postService;
+
 	
 	@GetMapping("/posts")
-	public List<Post> getPosts() {
-		return postService.getPosts();
+	public List<Post> getPostsByCategory(@RequestParam String category) {
+		return postService.getPostsByCategory(category);
+	}
+	
+	@GetMapping("/posts/top1")
+	public Post getTopPosts(@RequestParam String category) {
+		return postService.getLastPost(category);
 	}
 	
 	@GetMapping("/posts/{uuid}")

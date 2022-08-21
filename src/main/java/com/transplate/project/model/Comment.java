@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -26,7 +28,7 @@ import lombok.Setter;
 public class Comment {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "row_number")
+    @Column(name = "rownumber")
     private Long rownumber;
 	
 	@Column(name = "uuid", nullable = false, unique = true, length = 36)
@@ -57,4 +59,8 @@ public class Comment {
 	@Column(name = "updated_time_at")
 	@UpdateTimestamp
 	private Date updatedTimeAt;
+	
+	@ManyToOne
+	@JoinColumn(name="post_number")
+	private Post post;
 }

@@ -24,8 +24,23 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
+	public List<Post> getPostsByCategory(String category) {
+		return postRepository.findByCategoryAndIsDeletedFalse(category);
+	}
+	
+	@Override
 	public Post getPostByUuid(String uuid) {
 		Optional<Post> wrapped = postRepository.findByUuidAndIsDeletedFalse(uuid);
+		if(wrapped.isPresent()) {
+			return wrapped.get();
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
+	public Post getLastPost(String category) {
+		Optional<Post> wrapped = postRepository.findTop1ByCategoryAndIsDeletedFalse(category);
 		if(wrapped.isPresent()) {
 			return wrapped.get();
 		} else {
