@@ -9,12 +9,12 @@ public interface CommentService {
 
 	List<Comment> getComments();
 
-	Comment getCommentByUuid(String uuid);
-
 	void writeComment(String token, CommentDto dto);
 
 	void updateComment(String token, CommentDto dto);
 
 	void deleteComment(String token, String uuid);
+
+	List<Comment> getCommentByPostId(String postId);
 
 }

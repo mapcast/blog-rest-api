@@ -14,11 +14,15 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Builder
 @Entity
 @Table(name = "comments")
 @Getter
@@ -49,6 +53,7 @@ public class Comment {
 	@Column(name = "content", columnDefinition = "TEXT")
 	private String content;
 	
+	@Builder.Default
 	@Column(name = "is_deleted")
 	private Boolean isDeleted = false;
 	
@@ -62,5 +67,6 @@ public class Comment {
 	
 	@ManyToOne
 	@JoinColumn(name="post_number")
+	@JsonIgnore
 	private Post post;
 }

@@ -2,11 +2,15 @@ package com.transplate.project.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +20,6 @@ import com.transplate.project.dto.PostDto;
 import com.transplate.project.model.Post;
 import com.transplate.project.service.post.PostService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -28,8 +31,13 @@ public class PostController {
 
 	
 	@GetMapping("/posts")
-	public List<Post> getPostsByCategory(@RequestParam String category) {
-		return postService.getPostsByCategory(category);
+	public Page<Post> getPostsByCategory(@RequestParam String category, Pageable pageable) {
+		List<Post> posts = postService.getPostsByCategory(category);
+		final int start = (int)pageable.getOffset();
+		final int end = Math.min((start + pageable.getPageSize()), posts.size());
+		final Page<Post> page = new PageImpl<>(posts.subList(start, end), pageable, posts.size());
+		
+		return page;
 	}
 	
 	@GetMapping("/posts/top1")
@@ -45,18 +53,18 @@ public class PostController {
 	@PostMapping("/posts")
 	public String writePost(@RequestHeader String Authorization, @RequestBody PostDto dto) {
 		postService.writePost("", dto);
-		return "success";
+		return "{\"success\":true}";
 	}
 	
 	@PutMapping("/posts")
 	public String updatePost(@RequestHeader String Authorization, @RequestBody PostDto dto) {
 		postService.updatePost("", dto);
-		return "success";
+		return "{\"success\":true}";
 	}
 	
 	@DeleteMapping("/posts/{uuid}")
 	public String deletePost(@RequestHeader String Authorization, @PathVariable String uuid) {
 		postService.deletePost("", uuid);
-		return "success";
+		return "{\"success\":true}";
 	}
 }

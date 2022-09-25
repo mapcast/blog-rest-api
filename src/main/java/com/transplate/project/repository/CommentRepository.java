@@ -15,4 +15,10 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 	
 	Optional<Comment> findByUuidAndIsDeletedFalse(String uuid);
 	
+	Optional<Comment> findByUuidAndWriterPasswordAndIsDeletedFalse(String uuid, String writerPassword);
+	
+	Optional<Comment> findByUuidAndWriterIdAndIsDeletedFalse(String uuid, String writerId);
+	
+	List<Comment> findByPostIdAndIsDeletedFalse(String uuid);
+	
 }

@@ -1,4 +1,4 @@
-package com.transplate.project.model;
+	package com.transplate.project.model;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,6 +47,7 @@ public class Post {
 	@Column(name = "content", columnDefinition = "TEXT")
 	private String content;
 	
+	@Builder.Default
 	@Column(name = "is_deleted")
 	private Boolean isDeleted = false;
 	
