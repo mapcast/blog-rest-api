@@ -15,6 +15,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.transplate.project.service.user.UserDetailService;
 import com.transplate.project.util.TokenUtil;
 
@@ -27,6 +29,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	private final TokenUtil tokenUtil;
 	
 	private final UserDetailService userDetailService;
+	
+	private final ObjectMapper mapper;
 		
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -46,19 +50,21 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         	token = authorizationHeader.substring(7);
         }
         
-        String userId = tokenUtil.getUserNameFromToken(token);
-        if (userId == null) {
+        String userInfoString = tokenUtil.getUserInfoFromToken(token);
+        if (userInfoString == null) {
             return;
         }
         
-        UserDetails userDetails = userDetailService.getUserByUserId(userId);
+        JsonNode userInfo = mapper.readTree(userInfoString);
+        
+        UserDetails userDetails = userDetailService.getUserByUserId(userInfo.get("userId").textValue());
         
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
                     = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            session.setAttribute("userId", userId);
+            session.setAttribute("userId", userInfo.get("userId").textValue());
         }
         
         filterChain.doFilter(request, response);

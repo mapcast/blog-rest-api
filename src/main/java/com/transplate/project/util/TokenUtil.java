@@ -41,7 +41,7 @@ public class TokenUtil {
 	    return claims;
 	}
 	
-	public String getUserNameFromToken(String token) {
-		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("userId").toString();
+	public String getUserInfoFromToken(String token) {
+		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("userInfo").toString();
 	}
 }
