@@ -37,7 +37,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		String path = request.getRequestURI();
 		
-		if(path.startsWith("/swagger") || path.startsWith("/v2") || path.startsWith("/comment") || request.getMethod().equals("GET")) {
+		if(path.startsWith("/swagger") || path.startsWith("/v2") || path.startsWith("/comment") || path.startsWith("/auth") || request.getMethod().equals("GET")) {
 			filterChain.doFilter(request, response);
 			return;
 		}
